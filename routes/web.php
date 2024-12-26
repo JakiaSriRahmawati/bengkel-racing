@@ -84,3 +84,12 @@ Route::middleware(['auth', 'role:admin'])->group(function ()
 {
     Route::get('homeadmin', [AdminDashboardController::class, 'homeadmin'])->name('homeadmin');
 });
+
+Route::middleware('auth')->group(function () {
+    Route::get('/ratings/create/{booking_id}', [UserController::class, 'create'])->name('ratings.create');
+    Route::post('/ratings', [UserController::class, 'store'])->name('ratings.store');
+});
+Route::middleware('auth')->group(function () {
+    Route::get('/bookings', [BookingController::class, 'index'])->name('bookings.index');
+});
+

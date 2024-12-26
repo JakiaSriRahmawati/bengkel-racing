@@ -35,6 +35,9 @@ class booking extends Model
         'tanggal_booking',
         'deskripsi',
     ];
+    public function rating() {
+        return $this->hasOne(Rating::class);
+    }
 
     protected $dates = ['tanggal_booking'];
 

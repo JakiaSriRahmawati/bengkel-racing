@@ -8,6 +8,12 @@ use Illuminate\Database\Eloquent\Model;
 class rating extends Model
 {
     use HasFactory;
+    protected $fillable = [
+        'user_id',
+        'booking_id',
+        'rating',
+        'deskripsi'
+    ];
 
     public function User()
     {
@@ -16,6 +22,6 @@ class rating extends Model
 
     public function Booking()
     {
-        return $this->hasMany(booking::class);
+        return $this->belongsTo(booking::class);
     }
 }

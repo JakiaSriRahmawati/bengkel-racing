@@ -80,7 +80,7 @@ class DatabaseSeeder extends Seeder
             'booking_id' => 1,
             'nama_barang' => 'Kanvas Rem',
             'harga_barang' => '70000',
-            'stock' => '100',
+            'stok' => '100',
         ]);
        artikel::create([
         'user_id'=>'1',
@@ -127,12 +127,7 @@ class DatabaseSeeder extends Seeder
         'rating'=>'⭐⭐',
         'deskripsi'=>'layanan nya kurang ramah',
        ]);
-       barang::create([
-        'booking_id' => 1, 
-        'nama_barang' => 'Kanvas Rem',
-        'harga_barang' => 70000,
-        'stock' => 100,
-        ]);
+       
        BuktiPembayaran::create([
         'user_id'=>2,
         'booking_id'=>1,

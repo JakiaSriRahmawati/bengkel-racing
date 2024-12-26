@@ -77,11 +77,8 @@
                                         @endif
                                     </td>
                                     <td>
-                                        @if ($booking->buktiPembayaran)
-                                            <img src="{{ asset( $booking->buktiPembayaran->gambar) }}" alt="Bukti Pembayaran" style="height: 50px">
-                                        @else
-                                            <span class="badge bg-secondary">Belum Ada</span>
-                                        @endif
+                                        <img src="{{ asset($booking->buktiPembayaran->gambar) }}" alt="Bukti Pembayaran" style="height: 50px">
+                                        
                                     </td>
                                     <td>
                                         @if ($booking->buktiPembayaran && !$booking->is_paid)

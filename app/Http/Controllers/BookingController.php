@@ -11,6 +11,10 @@ use App\Models\User;
 
 class BookingController extends Controller
 {
+    public function index() {
+        $bookings = Booking::with('rating')->where('user_id', auth()->id())->get();
+        return view('index', compact('bookings'));
+    }
     
     public function store(Request $request)
     {
