@@ -1,0 +1,93 @@
+/*selamat datang*/
+.card-custom {
+    border-radius: 15px; /* Sudut membulat */
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgb(255, 255, 255); /* Bayangan card */
+    background: linear-gradient(45deg, #000000, #333333); /* Gradasi warna hitam */
+    color: rgb(255, 255, 255); /* Warna teks putih */
+  }
+  .card-body-custom {
+    padding: 2rem;
+  }
+  .display-4 {
+    font-weight: 700;
+    text-transform: uppercase; /* Huruf kapital */
+    letter-spacing: 2px; /* Jarak antar huruf */
+    color: white; /* Warna teks putih */
+  }
+  .card-text {
+    font-size: 1.2rem;
+    line-height: 1.5;
+    color: white; /* Warna teks putih */
+  }
+
+  /*Rating*/
+  .card-custom {
+    border-radius: 15px; /* Sudut membulat */
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); /* Bayangan card */
+  }
+  .card-img-top {
+    height: 18rem;
+    object-fit: cover;
+    border-bottom: 5px solid #007bff; /* Garis bawah gambar dengan warna tema */
+  }
+  .card-title {
+    font-weight: 700;
+    color: #007bff; /* Warna biru tema */
+  }
+  .card-text {
+    color: #555; /* Warna teks abu-abu gelap */
+  }
+  .display-4 {
+    font-weight: 700;
+    color: #333; /* Warna judul utama */
+  }
+
+/*carousel*/
+.carousel-item {
+    position: relative;
+  }
+  .card {
+    border-radius: 15px; /* Membuat sudut card lebih membulat */
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Menambahkan bayangan */
+  }
+  .card-img-top {
+    height: 300px;
+    object-fit: cover; /* Mengisi card dengan gambar secara proporsional */
+  }
+  .carousel-control-prev-icon,
+  .carousel-control-next-icon {
+    background-color: rgba(0, 0, 0, 0.5); /* Memberikan latar belakang pada ikon kontrol */
+    border-radius: 50%;
+    padding: 10px;
+  }
+
+  /*artikel*/
+
+  .card-custom {
+    border-radius: 15px; /* Membuat sudut card lebih membulat */
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); /* Menambahkan bayangan lembut */
+  }
+  .card-img-top {
+    height: 18rem;
+    object-fit: cover;
+    border-bottom: 5px solid #007bff; /* Garis bawah gambar dengan warna tema */
+  }
+  .card-title {
+    font-weight: 700;
+    color: #007bff; /* Warna biru tema */
+  }
+  .card-text {
+    color: #ffffff; /* Warna teks abu-abu gelap untuk kontras */
+  }
+  .display-4 {
+    font-weight: 700;
+    color: #333; /* Warna judul utama */
+  }
+  .lead {
+    font-size: 1.25rem;
+    color: #666; /* Warna teks lead */
+  }
