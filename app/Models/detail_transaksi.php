@@ -19,7 +19,7 @@ class detail_transaksi extends Model
         return $this->hasMany(barang::class);
     }
 
-    protected $table = 'detail_transaksis'; // Specify the table name
+    protected $table = 'detail_transaksis'; 
 
     protected $fillable = [
         'booking_id',
@@ -28,6 +28,10 @@ class detail_transaksi extends Model
         'harga_barang',
         'biaya_jasa',
     ];
+    public function getTotalBiayaAttribute()
+    {
+        return $this->biaya_jasa + $this->harga_barang;
+    }
     public function booking()
     {
         return $this->belongsTo(Booking::class);

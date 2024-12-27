@@ -34,7 +34,25 @@ class booking extends Model
         'jenis_servis',
         'tanggal_booking',
         'deskripsi',
+        'uang_masuk',
+        'kembalian'
     ];
+    public function getTotalBiayaAttribute()
+    {
+        return $this->DetailTransaksi->sum('total_biaya'); // Mengambil total biaya dari relasi DetailTransaksi
+    }
+
+    // Mutator untuk set uang masuk dan hitung kembalian
+    public function setUangMasukAttribute($value)
+    {
+        // Set uang masuk
+        $this->attributes['uang_masuk'] = $value;
+
+        // Menghitung kembalian, pastikan total_biaya sudah didefinisikan di model atau relasi
+        $totalBiaya = $this->total_biaya; // Mendapatkan total biaya dari accessor getTotalBiayaAttribute
+        $this->attributes['kembalian'] = max(0, $value - $totalBiaya); // Kembalian dihitung dari uang masuk - total biaya
+    }
+
     public function rating() {
         return $this->hasOne(Rating::class);
     }

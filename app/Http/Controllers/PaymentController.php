@@ -18,12 +18,8 @@ class PaymentController extends Controller
     $request->validate([
         'gambar' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048'
     ]);
-
-    $booking = booking::where('id', $request->booking_id)->first();
-    $input = [
-        'booking_id' => $request->booking_id,
-        'user_id' => Auth::id()
-    ];
+    // dd($id);
+    $booking = booking::findOrFail($id);
     if ($image = $request->file('gambar')) {
 
         $destinationPath = 'image/';
@@ -32,8 +28,8 @@ class PaymentController extends Controller
 
         $image->move($destinationPath, $profileImage);
 
-        $input['gambar'] = "$profileImage";
-
+        $booking['gambar'] = "$profileImage";
+        $booking->save();
     }
 
     return redirect()->back()->with('status', 'Bukti pembayaran berhasil diupload!');
@@ -41,6 +37,8 @@ class PaymentController extends Controller
 
     return redirect()->back()->with('error', 'Booking tidak ditemukan!');
 }
+
+
 
 public function verifyPayment($id)
 {

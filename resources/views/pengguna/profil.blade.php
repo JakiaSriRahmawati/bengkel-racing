@@ -2,7 +2,7 @@
 
 @section('content')
     <div class="container">
-        <h1>Profil </h1>
+        <h1>Profil</h1>
 
         <!-- Menampilkan pesan status -->
         @if (session('status'))
@@ -69,7 +69,6 @@
                                             <span class="badge bg-warning">Belum Lunas</span>
                                         @endif
                                     </td>
-                                    
                                     <td>
                                         @if ($order->status_servis == 'received')
                                             <span class="badge bg-info">Diterima Mekanik</span>
@@ -92,6 +91,49 @@
                                                 <button type="submit" class="btn btn-danger">Batalkan</button>
                                             </form>
                                         @endif
+                                        <button class="btn btn-primary" type="button" data-bs-toggle="collapse"
+                                            data-bs-target="#detail-{{ $order->id }}" aria-expanded="false"
+                                            aria-controls="detail-{{ $order->id }}">
+                                            Lihat Detail
+                                        </button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="10">
+                                        <div class="collapse mt-2" id="detail-{{ $order->id }}">
+                                            <div class="card card-body">
+                                                <h5>Detail Transaksi</h5>
+
+                                                @php
+                                                    $filteredDetails = $details ? $details->where('booking_id', $order->id) : collect();
+                                                @endphp
+
+                                                @if ($filteredDetails->isEmpty())
+                                                    <p>Belum ada transaksi untuk pesanan ini.</p>
+                                                @else
+                                                    <table class="table table-bordered">
+                                                        <thead>
+                                                            <tr>
+                                                                <th>Nama Barang</th>
+                                                                <th>Harga Barang</th>
+                                                                <th>Biaya Jasa</th>
+                                                                <th>Total Harga</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            @foreach ($filteredDetails as $detail)
+                                                                <tr>
+                                                                    <td>{{ $detail->nama_barang }}</td>
+                                                                    <td>{{ $detail->harga_barang }}</td>
+                                                                    <td>{{ $detail->biaya_jasa }}</td>
+                                                                    <td>{{ $detail->harga_barang + $detail->biaya_jasa }}</td>
+                                                                </tr>
+                                                            @endforeach
+                                                        </tbody>
+                                                    </table>
+                                                @endif
+                                            </div>
+                                        </div>
                                     </td>
                                 </tr>
                             @endforeach
@@ -100,84 +142,5 @@
                 @endif
             </div>
         </div>
-
-        <!-- Detail Transaksi (Invoice) -->
-        <div class="card" style="background-color: #ffffff;">
-            <div class="card-header">
-                <h5 class="card-title">Detail Transaksi</h5>
-            </div>
-            <div class="card-body">
-                @if ($details->isEmpty())
-                    <p>Belum ada transaksi.</p>
-                @else
-                    @foreach ($details as $index => $detail)
-                        <div class="card card-custom mb-4" style="background-color: #ffffff;">
-                            <div class="card-body">
-                                <h5>Transaksi #{{ $index + 1 }}</h5>
-                                <table class="table table-borderless">
-                                    <tbody>
-                                        <tr>
-                                            <th>Nama User</th>
-                                            <td>{{ $detail->booking->user->nama }}</td>
-                                        </tr>
-                                        <tr>
-                                            <th>Merek Motor</th>
-                                            <td>{{ $detail->booking->merek_motor }}</td>
-                                        </tr>
-                                        <tr>
-                                            <th>Seri Motor</th>
-                                            <td>{{ $detail->booking->seri_motor }}</td>
-                                        </tr>
-                                        <tr>
-                                            <th>Mesin Motor</th>
-                                            <td>{{ $detail->booking->mesin_motor }}</td>
-                                        </tr>
-                                        <tr>
-                                            <th>No Plat</th>
-                                            <td>{{ $detail->booking->no_plat }}</td>
-                                        </tr>
-                                        <tr>
-                                            <th>Jenis Servis</th>
-                                            <td>{{ $detail->booking->jenis_servis }}</td>
-                                        </tr>
-                                        <tr>
-                                            <th>Tanggal Booking</th>
-                                            <td>{{ $detail->booking->tanggal_booking->format('d-m-Y') }}</td>
-                                        </tr>
-                                        <tr>
-                                            <th>Nama Barang</th>
-                                            <td>{{ $detail->nama_barang }}</td>
-                                        </tr>
-                                        <tr>
-                                            <th>Harga Barang</th>
-                                            <td>{{ $detail->harga_barang }}</td>
-                                        </tr>
-                                        <tr>
-                                            <th>Biaya Jasa</th>
-                                            <td>{{ $detail->biaya_jasa }}</td>
-                                        </tr>
-                                        <tr>
-                                            <th>Total Harga</th>
-                                            <td>{{ $detail->harga_barang + $detail->biaya_jasa }}</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                                {{-- @if (!$detail->booking->is_paid) --}}
-                                    <form action="{{ route('uploadPaymentProof', $detail->booking->id) }}" method="POST"
-                                        enctype="multipart/form-data" class="mt-3">
-                                        @csrf
-                                        <input type="file" name="gambar" id="gambar" accept="image/*" required>
-                                        <button type="submit" class="btn btn-primary mt-2">Bayar</button>
-                                    </form>
-                                {{-- @else
-                                    <button class="btn btn-secondary" disabled>Bayar</button>
-                                @endif --}}
-                            </div>
-                        </div>
-                    @endforeach
-                @endif
-            </div>
-        </div>
-
     </div>
 @endsection

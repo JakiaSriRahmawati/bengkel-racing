@@ -44,6 +44,8 @@ Route::middleware(['auth', 'role:pengguna'])->group(function ()
 
     
 });
+Route::get('/booking/{id}/edit', [BookingController::class, 'edit'])->name('editbayar');
+Route::put('/booking/{id}/update', [BookingController::class, 'updateUangMasuk'])->name('booking.update');
 
 // Routes for 'mekanik' role
 Route::middleware(['auth', 'role:mekanik'])->group(function () 

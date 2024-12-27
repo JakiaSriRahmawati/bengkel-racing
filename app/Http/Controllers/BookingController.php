@@ -15,10 +15,34 @@ class BookingController extends Controller
         $bookings = Booking::with('rating')->where('user_id', auth()->id())->get();
         return view('index', compact('bookings'));
     }
-    
+    public function edit($id)
+    {
+        $booking = Booking::findOrFail($id);
+        return view('editbayar', compact('booking'));
+    }
+
+    public function updateUangMasuk(Request $request, $id)
+    {
+        $booking = Booking::findOrFail($id);
+
+        $request->validate([
+            'uang_masuk' => 'required|numeric|min:0',
+        ]);
+
+        $booking->uang_masuk = $request->uang_masuk;
+        $booking->is_paid = 1;
+
+        if($booking->total_biaya>$request->uang_masuk){
+            return redirect()->route('editbayar', $booking->id)
+                            ->with('error', 'Jumlah bayar kurang dari total biaya.');
+        }
+        $booking->save();
+
+        return redirect()->route('kasir', $booking->id)
+                         ->with('success', 'Uang masuk berhasil diperbarui dan kembalian dihitung.');
+    }
     public function store(Request $request)
     {
-        // Validasi data input
         $request->validate([
             'merek_motor' => 'required|string',
             'seri_motor' => 'required|string',

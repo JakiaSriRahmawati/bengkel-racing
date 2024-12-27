@@ -41,6 +41,7 @@
                             <tr>
                                 <th>No</th>
                                 <th>Nama User</th>
+                                <th>Total Biaya</th>
                                 <th>Merek Motor</th>
                                 <th>Seri Motor</th>
                                 <th>Mesin Motor</th>
@@ -48,7 +49,9 @@
                                 <th>Jenis Servis</th>
                                 <th>Tanggal Booking</th>
                                 <th>Status Servis</th>
-                                <th>Bukti Pembayaran</th>
+                                <th>Uang Masuk</th>
+                                <th>Uang Kembalian</th>
+                                <th>Status Pembayaran</th>
                                 <th>Aksi</th>
                             </tr>
                         </thead>
@@ -57,6 +60,7 @@
                                 <tr>
                                     <td>{{ $index + 1 }}</td>
                                     <td>{{ $booking->user->nama }}</td>
+                                    <td>{{ $booking->total_biaya }}</td>
                                     <td>{{ $booking->merek_motor }}</td>
                                     <td>{{ $booking->seri_motor }}</td>
                                     <td>{{ $booking->mesin_motor }}</td>
@@ -76,21 +80,18 @@
                                             <span class="badge bg-secondary">Pending</span>
                                         @endif
                                     </td>
+                                    <td>{{ $booking->uang_masuk }}</td>
+                                    <td>{{ $booking->kembalian }}</td>
                                     <td>
-                                        <img src="{{ asset($booking->buktiPembayaran->gambar) }}" alt="Bukti Pembayaran" style="height: 50px">
-                                        
+                                        @if ( $booking->is_paid)
+                                        <button class="btn btn-secondary btn-sm" disabled>Sudah Lunas</button>
+
+                                    @endif
                                     </td>
                                     <td>
-                                        @if ($booking->buktiPembayaran && !$booking->is_paid)
-                                            <form action="{{ route('verifyPayment', $booking->id) }}" method="POST" class="d-inline">
-                                                @csrf
-                                                <button type="submit" class="btn btn-success btn-sm">Verifikasi Pembayaran</button>
-                                            </form>
-                                        @elseif($booking->is_paid)
-                                            <button class="btn btn-secondary btn-sm" disabled>Sudah Lunas</button>
-                                        @endif
+                                       
+                                        <a href="{{ route('editbayar', $booking->id) }}" class="btn btn-primary btn-sm">Edit</a>
                                     </td>
-                                    
                                 </tr>
                             @endforeach
                         </tbody>
@@ -122,6 +123,9 @@
                                 <th>Harga Barang</th>
                                 <th>Biaya Jasa</th>
                                 <th>Total Harga</th>
+                                {{-- <th>Uang Masuk</th>
+                                <th>Uang Kembalian</th> --}}
+                                <th>Booking id</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -138,7 +142,10 @@
                                     <td>{{ $detail->nama_barang }}</td>
                                     <td>{{ $detail->harga_barang }}</td>
                                     <td>{{ $detail->biaya_jasa }}</td>
-                                    <td>{{ $detail->harga_barang + $detail->biaya_jasa }}</td>
+                                    <td>{{ $detail->total_biaya }}</td>
+                                    {{-- <td>{{ $detail->booking->uang_masuk }}</td>
+                                    <td>{{ $detail->booking->kembalian }}</td> --}}
+                                    <td>{{$detail->booking_id}}</td>
                                 </tr>
                             @endforeach
                         </tbody>
