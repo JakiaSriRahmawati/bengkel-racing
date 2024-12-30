@@ -94,4 +94,11 @@ Route::middleware('auth')->group(function () {
 Route::middleware('auth')->group(function () {
     Route::get('/bookings', [BookingController::class, 'index'])->name('bookings.index');
 });
+Route::get('/booking/{bookingId}/rate', [UserController::class, 'showForm'])->name('rating.form');
+Route::get('/booking/{bookingId}', [UserController::class, 'show'])->name('booking.show');
+Route::get('/booking/{bookingId}/rate', [UserController::class, 'showRatingForm'])->name('rating.form');
 
+// Kirim rating
+Route::post('/booking/{bookingId}/rate', [UserController::class, 'submit'])->name('rating.submit');
+Route::post('/rating/{bookingId}', [UserController::class, 'storeRating'])->name('rating.store');
+Route::get('/ratings', [UserController::class, 'index'])->name('ratings.index');

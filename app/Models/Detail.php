@@ -33,6 +33,9 @@ class Detail extends Model
     {
         return $this->belongsTo(Booking::class);
     }
-
+    public function ratings()
+    {
+        return $this->hasMany(Rating::class, 'detail_id'); 
+    }
 
 }

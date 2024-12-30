@@ -107,26 +107,11 @@ class DatabaseSeeder extends Seeder
         'berita'=>'cara merawat motor yaitu dengan sering melakukan servis rutinan setiap 1 bulan sekali',
        ]);
 
-       rating::create([
-        'user_id'=>'1',
-        'rating'=>'⭐⭐⭐⭐',
-        'deskripsi'=>'rapih sekali',
-       ]);
-       rating::create([
-        'user_id'=>'2',
-        'rating'=>'⭐⭐⭐',
-        'deskripsi'=>'bagus',
-       ]);
-       rating::create([
-        'user_id'=>'3',
-        'rating'=>'⭐⭐⭐⭐',
-        'deskripsi'=>'baguss sekali',
-       ]);
-       rating::create([
-        'user_id'=>'4',
-        'rating'=>'⭐⭐',
-        'deskripsi'=>'layanan nya kurang ramah',
-       ]);
+       Rating::create([
+        'booking_id' => 1,
+        'rating' => 4, // Nilai rating
+        'review' => 'Service sangat baik',
+        ]);
        
        BuktiPembayaran::create([
         'user_id'=>2,

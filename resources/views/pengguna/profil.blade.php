@@ -111,26 +111,46 @@
                                                 @if ($filteredDetails->isEmpty())
                                                     <p>Belum ada transaksi untuk pesanan ini.</p>
                                                 @else
-                                                    <table class="table table-bordered">
-                                                        <thead>
+                                                <table class="table table-bordered">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Nama Barang</th>
+                                                            <th>Harga Barang</th>
+                                                            <th>Biaya Jasa</th>
+                                                            <th>Total Harga</th>
+                                                            <th>Uang Masuk</th> <!-- Tambahkan kolom Uang Masuk -->
+                                                            <th>Uang Kembalian</th> <!-- Tambahkan kolom Uang Kembalian -->
+                                                            <th>Booking ID</th> <!-- Tambahkan kolom Uang Kembalian -->
+                                                            <th>Rating</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        @foreach ($filteredDetails as $detail)
                                                             <tr>
-                                                                <th>Nama Barang</th>
-                                                                <th>Harga Barang</th>
-                                                                <th>Biaya Jasa</th>
-                                                                <th>Total Harga</th>
+                                                                <td>{{ $detail->nama_barang }}</td>
+                                                                <td>{{ number_format($detail->harga_barang, 2) }}</td>
+                                                                <td>{{ number_format($detail->biaya_jasa, 2) }}</td>
+                                                                <td>{{ number_format($detail->harga_barang + $detail->biaya_jasa, 2) }}</td>
+                                                                <td>{{ number_format($detail->booking->uang_masuk, 2) }}</td> <!-- Tampilkan Uang Masuk -->
+                                                                <td>{{ number_format($detail->booking->kembalian, 2) }}</td>
+                                                                <td>{{$detail->booking_id}}</td>
+                                                                <td>
+                                                                    @if($detail->ratings && $detail->ratings->isNotEmpty())
+                                                                        <div class="d-flex align-items-center">
+                                                                            <span class="me-2"><strong>Your Rating:</strong> {{ $detail->ratings->first()->rating }} / 5</span>
+                                                                            <i class="bi bi-star-fill text-warning"></i> <!-- Ikon bintang -->
+                                                                        </div>
+                                                                    @else
+                                                                        <button class="btn btn-primary" type="button" onclick="window.location.href='{{ route('rating.form', ['bookingId' => $detail->booking_id]) }}'">
+                                                                            Rate this item
+                                                                        </button>
+                                                                    @endif
+                                                                </td>
+                                                                
                                                             </tr>
-                                                        </thead>
-                                                        <tbody>
-                                                            @foreach ($filteredDetails as $detail)
-                                                                <tr>
-                                                                    <td>{{ $detail->nama_barang }}</td>
-                                                                    <td>{{ $detail->harga_barang }}</td>
-                                                                    <td>{{ $detail->biaya_jasa }}</td>
-                                                                    <td>{{ $detail->harga_barang + $detail->biaya_jasa }}</td>
-                                                                </tr>
-                                                            @endforeach
-                                                        </tbody>
-                                                    </table>
+                                                        @endforeach
+                                                    </tbody>
+                                                </table>
                                                 @endif
                                             </div>
                                         </div>

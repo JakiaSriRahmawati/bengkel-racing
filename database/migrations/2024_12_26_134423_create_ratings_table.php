@@ -15,13 +15,14 @@ class CreateRatingsTable extends Migration
     {
         Schema::create('ratings', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained();
-            $table->foreignId('booking_id')->nullable()->constrained()->onDelete('cascade');
-            $table->string('rating');
-            $table->string('deskripsi');
+            $table->foreignId('booking_id')->constrained(); // atau sesuaikan dengan nama kolom booking_id
+            $table->foreignId('user_id')->constrained(); // Kolom user_id untuk relasi dengan tabel users
+            $table->integer('rating');
+            $table->text('review');
             $table->timestamps();
         });
     }
+
 
     /**
      * Reverse the migrations.

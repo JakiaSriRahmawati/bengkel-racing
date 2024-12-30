@@ -12,6 +12,7 @@ use App\Models\Barang;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
 
 class UserController extends Controller
 {
@@ -114,49 +115,86 @@ class UserController extends Controller
     }
 
 
-
-    public function create($booking_id) {
-        $booking = Booking::findOrFail($booking_id);
-
-        // Pastikan booking dimiliki oleh user yang sedang login
-        if ($booking->user_id !== auth()->id()) {
-            return redirect()->back()->with('error', 'Anda tidak memiliki akses.');
-        }
-
-        // Cek jika sudah ada rating
-        if ($booking->rating) {
-            return redirect()->back()->with('error', 'Rating sudah diberikan.');
-        }
-
-        return view('ratings.create', compact('booking'));
+    public function showForm($bookingId)
+    {
+        $booking = Booking::findOrFail($bookingId);
+        return view('rating.form', compact('booking'));
     }
 
-    public function store(Request $request) {
+    public function submit(Request $request, $bookingId)
+    {
+        // Validasi input
         $request->validate([
-            'booking_id' => 'required|exists:bookings,id',
-            'rating'     => 'required|integer|min:1|max:5',
-            'deskripsi'  => 'nullable|string|max:500',
+            'rating' => 'required|integer|min:1|max:5',
+            'review' => 'nullable|string',
         ]);
 
-        $booking = Booking::findOrFail($request->booking_id);
+        $booking = Booking::findOrFail($bookingId);
 
-        // Cek apakah user memiliki booking ini
-        if ($booking->user_id !== auth()->id()) {
-            return redirect()->back()->with('error', 'Anda tidak memiliki akses.');
-        }
+        $rating = new Rating();
+        $rating->booking_id = $booking->id;
+        $rating->user_id = auth()->id();
+        $rating->rating = $request->rating;
+        $rating->review = $request->review;
+        $rating->save();
 
-        // Simpan rating
-        Rating::create([
-            'user_id'    => auth()->id(),
-            'booking_id' => $request->booking_id,
-            'rating'     => $request->rating,
-            'deskripsi'  => $request->deskripsi,
-        ]);
-
-        return redirect()->route('bookings.index')->with('success', 'Rating berhasil disimpan.');
+        return redirect()->route('profile'); 
     }
-   
-    
+    public function show($orderId)
+{
+    $booking = Booking::findOrFail($orderId);
+    $details = $booking->details; 
 
+    return view('pengguna.profil', compact('booking', 'details'));
+}
+
+public function storeRating(Request $request, $bookingId)
+{
+    $user = auth()->user(); 
+
+    $existingRating = Rating::where('user_id', $user->id)
+        ->where('booking_id', $bookingId)
+        ->first();
+
+    if ($existingRating) {
+        $existingRating->update([
+            'rating' => $request->input('rating'),
+            'review' => $request->input('review'),
+        ]);
+
+        return redirect()->route('profile')->with('success', 'Your rating and review have been updated!');
+    }
+
+    Rating::create([
+        'user_id' => $user->id,
+        'booking_id' => $bookingId,
+        'rating' => $request->input('rating'),
+        'review' => $request->input('review'),
+    ]);
+
+    return redirect()->route('profile')->with('success', 'Thank you for your rating and review!');
+}
+
+public function showRatingForm($bookingId)
+{
+    $user = auth()->user(); 
     
+    $booking = Booking::find($bookingId);
+
+    if (!$booking) {
+        return redirect()->route('profile')->with('error', 'Booking not found.');
+    }
+
+    $userRating = Rating::where('user_id', $user->id)
+                        ->where('booking_id', $bookingId)
+                        ->first();
+
+    return view('rating.form', compact('userRating', 'booking'));
+}
+public function index() {
+    $ratings = DB::table('ratings')->get();  // Ambil semua rating dari DB
+    return view('home', ['rating' => $ratings]);
+}
+
+  
 }

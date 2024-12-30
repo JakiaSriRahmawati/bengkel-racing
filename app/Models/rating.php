@@ -9,19 +9,18 @@ class rating extends Model
 {
     use HasFactory;
     protected $fillable = [
-        'user_id',
-        'booking_id',
-        'rating',
-        'deskripsi'
+        'booking_id', 'user_id', 'rating', 'review'
     ];
 
-    public function User()
+    // Relasi dengan model Booking
+    public function booking()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(Booking::class);
     }
 
-    public function Booking()
+    // Relasi dengan model User (jika diperlukan)
+    public function user()
     {
-        return $this->belongsTo(booking::class);
+        return $this->belongsTo(User::class);
     }
 }
