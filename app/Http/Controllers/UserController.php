@@ -115,11 +115,11 @@ class UserController extends Controller
     }
 
 
-    public function showForm($bookingId)
-    {
-        $booking = Booking::findOrFail($bookingId);
-        return view('rating.form', compact('booking'));
-    }
+    // public function showForm($bookingId)
+    // {
+    //     $booking = Booking::findOrFail($bookingId);
+    //     return view('rating.form', compact('booking'));
+    // }
 
     public function submit(Request $request, $bookingId)
     {
@@ -192,7 +192,7 @@ public function showRatingForm($bookingId)
     return view('rating.form', compact('userRating', 'booking'));
 }
 public function index() {
-    $ratings = DB::table('ratings')->get();  // Ambil semua rating dari DB
+    $ratings = DB::table('ratings')->get(); 
     return view('home', ['rating' => $ratings]);
 }
 

@@ -6,6 +6,9 @@
     <div class="container-fluid">
         <a class="navbar-brand text-white" href="{{ route('home')}}">HOME</a>
         <a class="navbar-brand text-white" href="{{ route('about')}}">About Us</a>
+        <a class="navbar-brand text-white" href="{{ route('login')}}">Login</a>
+        <a class="navbar-brand text-white" href="{{ route('booking')}}">booking</a>
+        <a class="navbar-brand text-white" href="{{ route('profile')}}">Profil</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown"
             aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
